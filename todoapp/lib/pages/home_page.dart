@@ -9,6 +9,7 @@ import 'package:todoapp/Widgets/app_bar.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:todoapp/ad_helper.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Models/todo.dart';
 
@@ -87,6 +88,7 @@ class _HomePageState extends State<HomePage> {
     try {
       // ignore: unused_local_variable, prefer_interpolation_to_compose_strings
       http.Response response = await http.delete(Uri.parse(api + "/" + id));
+      _interstitialAd?.show();
       setState(() {
         myTodos = [];
       });
@@ -120,7 +122,9 @@ class _HomePageState extends State<HomePage> {
   // }
   // ignore: non_constant_identifier_names
   void post_data(
-      {String title = "", String desc = "", required BuildContext context}) async {
+      {String title = "",
+      String desc = "",
+      required BuildContext context}) async {
     try {
       http.Response response = await http.post(Uri.parse(api),
           headers: <String, String>{
@@ -194,7 +198,8 @@ class _HomePageState extends State<HomePage> {
                     height: 10,
                   ),
                   ElevatedButton(
-                    onPressed: () => post_data(title: title, desc: desc, context: context),
+                    onPressed: () =>
+                        post_data(title: title, desc: desc, context: context),
                     child: const Text('Add TodDo'),
                   )
                 ],
@@ -202,6 +207,13 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         });
+  }
+
+  _launchURL() async {
+    final Uri url = Uri.parse('www.techblogs.live');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   @override
@@ -231,28 +243,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF001133),
+      backgroundColor: Color.fromARGB(255, 2, 250, 221),
       appBar: customAppBar(),
       body: Column(
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: 70,
-            color: Colors.black,
-            child: Row(
-              children: [
-                if (_bannerAd != null)
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      width: _bannerAd!.size.width.toDouble(),
-                      height: _bannerAd!.size.height.toDouble(),
-                      child: AdWidget(ad: _bannerAd!),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          Center(
+              child: ElevatedButton(
+                  onPressed: _launchURL(), child: const Text('Cookies'))),
           PieChart(
             dataMap: {
               "Done": done,
@@ -276,6 +273,15 @@ class _HomePageState extends State<HomePage> {
                               isDone: e.isDone))
                           .toList()),
                 ),
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: _bannerAd!.size.width.toDouble(),
+                height: _bannerAd!.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd!),
+              ),
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
