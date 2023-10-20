@@ -9,7 +9,8 @@ import 'package:todoapp/Widgets/app_bar.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:todoapp/ad_helper.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:todoapp/pages/cookies.dart';
+
 
 import '../Models/todo.dart';
 
@@ -209,12 +210,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  _launchURL() async {
-    final Uri url = Uri.parse('www.techblogs.live');
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
-  }
+  
 
   @override
   void initState() {
@@ -249,7 +245,13 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Center(
               child: ElevatedButton(
-                  onPressed: _launchURL(), child: const Text('Cookies'))),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CookiesPage()));
+                  },
+                  child: const Text('Cookies'))),
           PieChart(
             dataMap: {
               "Done": done,

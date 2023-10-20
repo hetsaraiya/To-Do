@@ -4,7 +4,7 @@ AppBar customAppBar() {
   return AppBar(
     title: const Text('ToDo List'),
     centerTitle: true,
-    backgroundColor: const Color(0xFF001133),
+    backgroundColor: Color.fromARGB(255, 2, 250, 221),
   );
 }
 
