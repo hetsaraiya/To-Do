@@ -246,6 +246,7 @@ class _HomePageState extends State<HomePage> {
           Center(
               child: ElevatedButton(
                   onPressed: () {
+                    _interstitialAd?.show();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -272,7 +273,8 @@ class _HomePageState extends State<HomePage> {
                               id: e.id,
                               title: e.title,
                               desc: e.desc,
-                              isDone: e.isDone))
+                              isDone: e.isDone)
+                              )
                           .toList()),
                 ),
           if (_bannerAd != null)

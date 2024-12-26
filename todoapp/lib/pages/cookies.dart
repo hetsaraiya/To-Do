@@ -42,21 +42,7 @@ class _CookiesPageState extends State<CookiesPage> {
     );
   }
 
-  void showInterstitialAd(String url) {
-    if (_interstitialAd == null) {
-      print('Interstitial ad not loaded.');
-      return;
-    }
-
-    _interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
-      onAdDismissedFullScreenContent: (ad) {
-        // The user has finished viewing the ad, so redirect them to the link.
-        _launchURL(url);
-      },
-    );
-
-    _interstitialAd?.show();
-  }
+  
 
   _launchURL(String urls) async {
     _interstitialAd?.show();
@@ -108,7 +94,7 @@ class _CookiesPageState extends State<CookiesPage> {
               child: Column(
                 children: [
                   ElevatedButton(
-                      onPressed: () => showInterstitialAd(
+                      onPressed: () => _launchURL(
                           "https://hetsaraiya.page.link/netflix"),
                       child: const Text(
                         "Netflix",
@@ -118,7 +104,7 @@ class _CookiesPageState extends State<CookiesPage> {
                     height: 30,
                   ),
                   ElevatedButton(
-                      onPressed: () => showInterstitialAd(
+                      onPressed: () => _launchURL(
                           "https://hetsaraiya.page.link/semrush"),
                       child: const Text(
                         "SEMRush",
@@ -128,7 +114,7 @@ class _CookiesPageState extends State<CookiesPage> {
                     height: 30,
                   ),
                   ElevatedButton(
-                      onPressed: () => showInterstitialAd(
+                      onPressed: () => _launchURL(
                           "https://hetsaraiya.page.link/Udemy"),
                       child: const Text(
                         "Udemy",
